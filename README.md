@@ -35,7 +35,7 @@ jobs:
         PREFIX: dev
         MAJOR: "BREAKING*CHANGE|*#major*"
         MINOR: "*feat*|*#minor*"
-        PATCH: "*fix*|*chore*|*docs*|*update*|#patch"
+        PATCH: "*fix*|*chore*|*docs*|*update*|*#patch*"
         FORCE: true
         OVERWRITE: true
 ```
@@ -46,7 +46,7 @@ _NOTE: set the fetch-depth for `actions/checkout@v2` to be sure you retrieve all
 
 **Environment Variables**
 
-- **DEFAULT_BUMP** _(optional)_ - Which type of bump to use when none explicitly provided (default: `minor`).
+- **DEFAULT_BUMP** _(optional)_ - Which type of bump to use when none explicitly provided (default: `not set`). You can use any in MAJOR, MINOR or PATCH variable.
 - **WITH_V** _(optional)_ - Tag version with `v` character.
 - **RELEASE_BRANCHES** _(optional)_ - Comma separated list of branches (bash reg exp accepted) that will generate the release tags. Other branches and pull-requests generate versions postfixed with the commit hash and do not generate any tag. Examples: `master` or `.*` or `release.*,hotfix.*,master` ...
 - **CUSTOM_TAG** _(optional)_ - Set a custom tag, useful when generating tag based on f.ex FROM image in a docker image. **Setting this tag will invalidate any other settings set!**
@@ -71,15 +71,15 @@ _NOTE: set the fetch-depth for `actions/checkout@v2` to be sure you retrieve all
 - **newhash** - Print current tag commit SHA
 
 With oldhash and newhash you can find out if the content of the folder has changed during the last tag and new tag or not.
-```Dockerfile
-  - name: Get changed files in apps/auth/src/migrations/ folder
+```Shell
+  - name: Get changed files in apps/migrations/ folder
      id: changed-files-auth
      run: |
-       test=$(git diff ${{ steps.tag.outputs.oldhash }} ${{ steps.tag.outputs.newhash }} --stat -- apps/auth/src/migrations/ | wc -l)
+       test=$(git diff ${{ steps.tag.outputs.oldhash }} ${{ steps.tag.outputs.newhash }} --stat -- apps/migrations/ | wc -l)
        (( $test )) && echo "::set-output name=any_changed::true || echo "::set-output name=any_changed::false
        echo "If there are changes in the folder, then the test variable is greater than zero. Current test=$test"
 
-  - name: Run a step if any files have changed in the apps/auth/src/migrations/ folder
+  - name: Run a step if any files have changed in the apps/migrations/ folder
     if: ${{ contains(steps.changed-files-auth.outputs.any_changed, 'true') }}
     id: auth-migration-run
       run: |
@@ -91,9 +91,8 @@ With oldhash and newhash you can find out if the content of the folder has chang
 
 **Manual Bumping:** Any commit message that includes `#major`, `#minor`, `#patch` will trigger the respective version bump. If two or more are present, the highest-ranking one will take precedence.
 
-**Automatic Bumping:** If no `#major`, `#minor` or `#patch` tag is contained in the commit messages, it will bump whichever `DEFAULT_BUMP` is set to (which is `minor` by default). Disable this by setting `DEFAULT_BUMP` to `none`.
+**Automatic Bumping:** If no `#major`, `#minor` or `#patch` tag is contained in the commit messages, it will bump whichever `DEFAULT_BUMP` is set to. Disabled by default.
 
-> **_Note:_** This action **will not** bump the tag if the `HEAD` commit has already been tagged.
 
 ### Workflow
 
