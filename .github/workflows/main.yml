@@ -16,23 +16,24 @@ jobs:
       uses: Magikon/mtag@main
       env:
         INITIAL_VERSION: 0.0.0
-        RELEASE_BRANCHES: main
+        WITH_V: true
+        RELEASE_BRANCHES: none
         MAJOR: "BREAKING*CHANGE|*#major*"
         MINOR: "*feat*|*#minor*"
-        PATCH: "*fix*|*chore*|*docs*|*update*"
+        PATCH: "*fix*|*chore*|*docs*|*update*|*patch*"
         FORCE: true
         OVERWRITE: true
         NOMERGES: true
         
-    # - name: Echo variables
-      # env:
-        # NEW_TAG: ${{ steps.tag.outputs.new_tag }}
-        # SEL_TAG: ${{ steps.tag.outputs.tag }}
-        # PART: ${{ steps.tag.outputs.part }}
-      # run: |
-        # echo "New Tag"
-        # echo $NEW_TAG
-        # echo "Tag"
-        # echo $SEL_TAG
-        # echo "Part"
-        # echo $PART
+    - name: Echo variables
+      env:
+        NEW_TAG: ${{ steps.tag.outputs.new_tag }}
+        SEL_TAG: ${{ steps.tag.outputs.tag }}
+        PART: ${{ steps.tag.outputs.part }}
+      run: |
+        echo "New Tag"
+        echo $NEW_TAG
+        echo "Tag"
+        echo $SEL_TAG
+        echo "Part"
+        echo $PART
