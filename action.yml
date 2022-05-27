@@ -1,0 +1,20 @@
+name: 'Git semantic tagging and more'
+description: 'Calculate and push git tag'
+author: 'Mikayel Galyan'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+outputs:
+  new_tag:
+    description: 'The value of the newly created tag'
+  tag:
+    description: 'The value of the latest tag after running this action'
+  part:
+    description: 'The part of version which was bumped'
+  olhash:
+    description: 'Print last tag commit SHA'
+  newhash:
+    description: 'Print current tag commit SHA'
+branding:
+  icon: 'git-merge'  
+  color: 'purple'

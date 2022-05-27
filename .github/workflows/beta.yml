@@ -1,0 +1,40 @@
+name: Bump version
+on:
+  push:
+    branches:
+      - beta
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@main
+      with:
+        fetch-depth: '0'
+        
+    - name: Colculate and push tag
+      id: tag
+      uses: Magikon/mtag@beta
+      env:
+        INITIAL_VERSION: 0.0.0
+        TAG_CONTEXT: branch
+        PREFIX: "beta"
+        MAJOR: "BREAKING*CHANGE|*#major*"
+        MINOR: "*feat*|*#minor*"
+        PATCH: "*fix*|*chore*|*docs*|*update*"
+        OVERWRITE: true
+        NOMERGES: true
+        DEFAULT_BUMP: minor
+
+        
+    - name: Echo variables
+      env:
+        NEW_TAG: ${{ steps.tag.outputs.new_tag }}
+        SEL_TAG: ${{ steps.tag.outputs.tag }}
+        PART: ${{ steps.tag.outputs.part }}
+      run: |
+        echo "New Tag"
+        echo $NEW_TAG
+        echo "Tag"
+        echo $SEL_TAG
+        echo "Part"
+        echo $PART
