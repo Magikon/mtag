@@ -50,7 +50,6 @@ _NOTE: set the fetch-depth for `actions/checkout@v2` to be sure you retrieve all
 - **WITH_V** _(optional)_ - Tag version with `v` character.
 - **RELEASE_BRANCHES** _(optional)_ - Comma separated list of branches (bash reg exp accepted) that will generate the release tags. Other branches and pull-requests generate versions postfixed with the commit hash and do not generate any tag. Examples: `master` or `.*` or `release.*,hotfix.*,master` ...
 - **CUSTOM_TAG** _(optional)_ - Set a custom tag, useful when generating tag based on f.ex FROM image in a docker image. **Setting this tag will invalidate any other settings set!**
-- **SOURCE** _(optional)_ - Operate on a relative path under $GITHUB_WORKSPACE.
 - **DRY_RUN** _(optional)_ - Determine the next version without mtag the branch. The workflow can use the outputs `new_tag` and `tag` in subsequent steps. Possible values are `true` and `false` (default).
 - **INITIAL_VERSION** _(optional)_ - Set initial version before bump. Default `0.0.0`.
 - **TAG_CONTEXT** _(optional)_ - Set the context of the previous tag. Possible values are `repo` (default) or `branch`.
@@ -59,8 +58,9 @@ _NOTE: set the fetch-depth for `actions/checkout@v2` to be sure you retrieve all
 - **MAJOR** _(optional)_ - Major changes from commits ex. `"BREAKING*CHANGE|*#major*"`
 - **MINOR** _(optional)_ - Minor changes from commits ex. `"*feat*|*#minor*"`
 - **PATCH** _(optional)_ - Patch changes from commits ex. `"*fix*|*chore*|*docs*|*update*"`
-- **PREFIX** _(optional)_ - ex. `dev-v0.2.4`
-- **OVERWRITE** _(optional)_ - overwrite tag with this commit. Default `false`
+- **PREFIX** _(optional)_ - Prefix tag if used TAG_CONTEXT=branch. Ex. `dev-v0.2.4`
+- **OVERWRITE** _(optional)_ - Overwrite tag with this commit. Default `false`
+- **NOMERGES** _(optional)_ - Not included in the calculation merges. Using flag --no-merges. Default `true`
 
 #### Outputs
 
