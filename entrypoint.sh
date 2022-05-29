@@ -157,7 +157,7 @@ shopt -u extglob;
 
 [ -z "$new" ] && new=$tag
 echo $part
-echo -e "Bumping tag ${tag}. \n\tNew tag ${new}"
+echo -e "Bumping tag ${tag}. \tNew tag ${new}"
 echo ::set-output name=tag::$new
 
 # prefix with 'v'
