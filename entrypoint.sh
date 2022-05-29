@@ -174,11 +174,6 @@ fi
 if $pre_release
 then
     # Already a prerelease available, bump it
-    
-    echo "Old=$old"
-    echo "tag=$tag"
-    echo "new=$new"
-    
     if [[ "$new" =~ "$old" ]] && [[ ! -z $lastN ]]; then
         lastN=$((lastN+1))
 		new="$new-$suffix.$lastN"
