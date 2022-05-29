@@ -64,7 +64,7 @@ case "$tag_context" in
     *repo*)
         lasttag="$(git describe --abbrev=0 --tags $(git rev-list --tags --max-count=1))"
         [ -z "$lasttag" ] || tag="$(semver -c $lasttag | tail -n 1)"
-        $pre_release && lastN="${lasttag##*.}"
+        [[ $pre_release ]] && [[ "$tag" =~ "$suffix" ]] && lastN="${lasttag##*.}"
         ;;
     *branch*)
         if [ -z "$prefix" ]
@@ -74,7 +74,7 @@ case "$tag_context" in
            lasttag="$(git tag --list --sort=-v:refname | grep -E "$fmt" | grep $prefix- | head -n 1)"
         fi
         [ -z "$lasttag" ] || tag="$(semver -c $lasttag | tail -n 1)"
-        $pre_release && lastN="${lasttag##*.}"
+        [[ $pre_release ]] && [[ "$tag" =~ "$suffix" ]] && lastN="${lasttag##*.}"
         ;;
     * ) echo "Unrecognised context"; exit 1;;
 esac
@@ -174,7 +174,7 @@ fi
 if $pre_release
 then
     # Already a prerelease available, bump it
-    if [[ "$old" == *"$new"* ]]; then
+    if [[ "$old" == *"$new"* ]] && [[ ! -z $lastN ]]; then
         lastN=$((lastN+1))
 		new="$new-$suffix.$lastN"
     else
