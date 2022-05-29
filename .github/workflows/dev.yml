@@ -11,7 +11,7 @@ jobs:
       with:
         fetch-depth: '0'
         
-    - name: Colculate and push tag
+    - name: Colculate and push tag for development
       id: tag
       uses: Magikon/mtag@development
       env:
