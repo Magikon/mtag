@@ -17,7 +17,7 @@ jobs:
       env:
         INITIAL_VERSION: 0.0.0
         WITH_V: true
-        TAG_CONTEXT: repo
+        TAG_CONTEXT: branch
         RELEASE_BRANCHES: development
         PRERELEASE_SUFFIX: dev
         MAJOR: "BREAKING*CHANGE|*#major*"
