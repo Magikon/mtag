@@ -157,7 +157,7 @@ shopt -u extglob;
 
 [ -z "$new" ] && new=$tag
 echo $part
-echo -e "Bumping tag ${tag}. \tNew tag ${new}"
+echo -e "Bumping tag ${tag} \tNew tag ${new}"
 echo ::set-output name=tag::$new
 
 # prefix with 'v'
@@ -174,6 +174,11 @@ fi
 if $pre_release
 then
     # Already a prerelease available, bump it
+    
+    echo "Old=$old"
+    echo "tag=$tag"
+    echo "new=$new"
+    
     if [[ "$old" == *"$new"* ]] && [[ ! -z $lastN ]]; then
         lastN=$((lastN+1))
 		new="$new-$suffix.$lastN"
