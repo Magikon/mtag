@@ -179,7 +179,7 @@ then
     echo "tag=$tag"
     echo "new=$new"
     
-    if [[ "$old" =~ "$new" ]] && [[ ! -z $lastN ]]; then
+    if [[ "$new" =~ "$old" ]] && [[ ! -z $lastN ]]; then
         lastN=$((lastN+1))
 		new="$new-$suffix.$lastN"
     else
