@@ -64,6 +64,7 @@ case "$tag_context" in
     *repo*)
         lasttag="$(git describe --abbrev=0 --tags $(git rev-list --tags --max-count=1))"
         [ -z "$lasttag" ] || tag="$(semver -c $lasttag | tail -n 1)"
+        [[ $pre_release ]] && [[ "$lasttag" =~ "$suffix" ]] && lastN="${lasttag##*.}"
         ;;
     *branch*)
         if [ -z "$prefix" ]
@@ -73,6 +74,7 @@ case "$tag_context" in
            lasttag="$(git tag --list --sort=-v:refname | grep -E "$fmt" | grep $prefix- | head -n 1)"
         fi
         [ -z "$lasttag" ] || tag="$(semver -c $lasttag | tail -n 1)"
+        [[ $pre_release ]] && [[ "$lasttag" =~ "$suffix" ]] && lastN="${lasttag##*.}" 
         ;;
     * ) echo "Unrecognised context"; exit 1;;
 esac
@@ -80,6 +82,7 @@ esac
 echo "Last tag info ..."
 echo -e "Found tag numeric... \t$tag"
 echo -e "Found full tag ... \t$lasttag"
+echo -e "If prerelease true last number \t$lastN"
 
 # save previous tag
 old=$tag
@@ -154,7 +157,7 @@ shopt -u extglob;
 
 [ -z "$new" ] && new=$tag
 echo $part
-echo -e "Bumping tag ${tag}. \n\tNew tag ${new}"
+echo -e "Bumping tag ${tag} \tNew tag ${new}"
 echo ::set-output name=tag::$new
 
 # prefix with 'v'
@@ -171,8 +174,9 @@ fi
 if $pre_release
 then
     # Already a prerelease available, bump it
-    if [[ "$old" == *"$new"* ]]; then
-        new=$(semver -i prerelease $new --preid $suffix); part="$part"
+    if [[ "$new" =~ "$old" ]] && [[ ! -z $lastN ]]; then
+        lastN=$((lastN+1))
+		new="$new-$suffix.$lastN"
     else
         new="$new-$suffix.0"
     fi
