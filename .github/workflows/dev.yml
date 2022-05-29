@@ -16,6 +16,7 @@ jobs:
       uses: Magikon/mtag@development
       env:
         INITIAL_VERSION: 0.0.0
+        WITH_V: true
         TAG_CONTEXT: repo
         RELEASE_BRANCHES: development
         PRERELEASE_SUFFIX: dev
