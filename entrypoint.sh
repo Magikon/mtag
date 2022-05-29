@@ -74,7 +74,7 @@ case "$tag_context" in
            lasttag="$(git tag --list --sort=-v:refname | grep -E "$fmt" | grep $prefix- | head -n 1)"
         fi
         [ -z "$lasttag" ] || tag="$(semver -c $lasttag | tail -n 1)"
-        [[ $pre_release ]] && [[ "$lasttag" =~ "$suffix" ]] && lastN="${lasttag##*.}"
+        [[ $pre_release ]] && [[ "$lasttag" =~ "$suffix" ]] && lastN="${lasttag##*.}" 
         ;;
     * ) echo "Unrecognised context"; exit 1;;
 esac
