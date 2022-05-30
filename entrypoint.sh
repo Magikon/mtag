@@ -2,7 +2,7 @@
 
 set -o pipefail
 
-cd ${GITHUB_WORKSPACE}/${source}
+cd ${GITHUB_WORKSPACE}
 
 #add as safe /github/workspace directory
 git config --global --add safe.directory /github/workspace
@@ -175,8 +175,7 @@ if $pre_release
 then
     # Already a prerelease available, bump it
     if [[ "$new" =~ "$old" ]] && [[ ! -z $lastN ]]; then
-        lastN=$((lastN+1))
-		new="$new-$suffix.$lastN"
+		new="$new-$suffix.$((lastN+1))"
     else
         new="$new-$suffix.0"
     fi
